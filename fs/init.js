@@ -7,28 +7,35 @@ load('api_pwm.js');
 load('servo.js');
 load('api_rpc.js');
 
+let appData = Cfg.get('appData');
+if(!appData){
+  appData = {
+    arm : {
+      position : -90,
+      open: -90,
+      closed: 90
+    }
+  }
+}
 
-let state = {uptime: 0, arm_position: -1};             // arm_position: 0 wait. 1 push
-let btn = Cfg.get('board.btn1.pin'); 
+Cfg.set({appData : appData});
 
+print('++++++++++++++++++++++++');
+print(JSON.stringify(appData));
+print('++++++++++++++++++++++++');
+
+let state = {uptime: 0};             // arm_position: 0 wait. 1 push
+
+move_arm(appData.arm.position);
 
 function loop(){
   state.uptime = Math.round(Sys.uptime());
   print(JSON.stringify(state));
 
 }
-// Update state every second
-// Timer.set(1000, Timer.REPEAT, loop, null);
 
-/* 
-GPIO.set_button_handler(btn, GPIO.PULL_UP, GPIO.INT_EDGE_NEG, 20, function() {
-    print('========== BUTTON PRESSED ==========');
-    // state.arm_position = (state.arm_position + 1) % 6;
-    state.arm_position = (state.arm_position + 1);
-    move_arm(state.arm_position);
-    print('========== EOF BUTTON PRESSED ======');
-}, null); 
-*/
+Timer.set(1000, Timer.REPEAT, loop, null);
+
 
 
 RPC.addHandler("Duty", function(args){
@@ -44,11 +51,11 @@ RPC.addHandler("MoveArm", function(args){
 });
 
 RPC.addHandler("OpenArm", function(args){
-  let duty = move_arm(-90);
+  let duty = move_arm(appData.arm.open);
   return duty;
 });
 
 RPC.addHandler("CloseArm", function(args){
-  let duty = move_arm(90);
+  let duty = move_arm(appData.arm.closed);
   return duty;
 });

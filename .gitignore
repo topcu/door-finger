@@ -1,0 +1,5 @@
+build/
+deps/
+*.sublime-workspace
+*.sublime-project
+.DS_Store

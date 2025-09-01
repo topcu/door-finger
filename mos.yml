@@ -15,6 +15,8 @@ config_schema:
   - ["wifi.sta.enable", true]
   - ["wifi.sta.ssid", "TelsizIOT"]
   - ["wifi.sta.pass", "69iplxhyysjfjxzn"]
+  - ["appData", "o", {title: "My app settings"}]
+
 
 tags:
   - js
