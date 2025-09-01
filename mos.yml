@@ -1,0 +1,35 @@
+author: rargon
+description: door finger tool
+# arch: PLATFORM
+version: 1.0
+manifest_version: 2017-05-18
+libs_version: ${mos.version}
+modules_version: ${mos.version}
+mongoose_os_version: ${mos.version}
+platform: esp32
+
+config_schema:
+  - ["mqtt.server", "mqtt.eclipseprojects.io:1883"]
+  - ["i2c.enable", true]
+  - ["wifi.ap.enable", false]
+  - ["wifi.sta.enable", true]
+  - ["wifi.sta.ssid", "TelsizIOT"]
+  - ["wifi.sta.pass", "69iplxhyysjfjxzn"]
+
+tags:
+  - js
+
+filesystem:
+  - fs
+
+libs:
+  - location: https://github.com/mongoose-os-libs/boards
+  - location: https://github.com/mongoose-os-libs/js-demo-bundle
+  - location: https://github.com/mongoose-os-libs/pwm
+
+conds:
+  - when: mos.platform == "esp32"
+    apply:
+      build_vars:
+        # Icrease app szie for ESP32
+        APP_SLOT_SIZE: 0x190000
