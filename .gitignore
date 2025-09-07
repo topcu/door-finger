@@ -3,3 +3,4 @@ deps/
 *.sublime-workspace
 *.sublime-project
 .DS_Store
+door-finger.code-workspace
